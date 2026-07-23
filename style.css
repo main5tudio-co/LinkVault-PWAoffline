@@ -1,0 +1,422 @@
+/*==============================
+    LINKVAULT V4 — index page
+==============================*/
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  padding-bottom: 100px;
+}
+
+.view { display: none; }
+.view.active { display: block; }
+
+/* ── Header ─────────────────────────────── */
+.headerbox {
+  background: #ffffff;
+  border: 3px solid rgb(103,103,103);
+  border-radius:0px;
+  margin: 0px;
+  padding: 0px 0px;
+  text-align: center;
+  box-shadow: 5px 8px 10px rgba(0,0,0,0.30);
+  height: 80px;
+  overflow: visible;
+  position: relative;
+}
+.headerbox .brand {
+  margin: 5px 0 0;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #d32f2f;
+  letter-spacing: 0.5px;
+  line-height: 0.8;
+  padding-top: 18px;
+}
+.headerbox .subtitle {
+  margin: 6px 0 0;
+  font-style: italic;
+  color: rgba(0,0,0,0.5);
+  font-size: 8px;
+  line-height: .1px;
+}
+
+/* ── Ko-fi support badge (header, bottom-right) ── */
+.kofi-badge {
+  position: absolute;
+  right: 6px;
+  bottom: 4px;
+  display: inline-block;
+  line-height: 0;
+}
+.kofi-badge img {
+  width: 16.6667vw;
+  min-width: 70px;
+  max-width: 130px;
+  height: auto;
+  display: block;
+}
+
+/* ── Category bar ─ */
+.categoryScroller {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  gap: 5px;
+  padding: 6px 14px 18px;
+  scroll-behavior: smooth;
+}
+.categoryScroller::-webkit-scrollbar { display: none; }
+
+.add-cat-btn {
+  flex-shrink: 0;
+  background: #fff;
+  border: 1.5px solid #bbb;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  cursor: pointer;
+}
+
+.cat-chip {
+  flex-shrink: 0;
+  border: 4px black;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #fff;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* ── Section labels + dividers ────── */
+.section-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+  padding: 0 14px 10px;
+}
+.section-divider {
+  height: 2px;
+  background: #f0a04b;
+  margin: 0 14px 14px;
+  border-radius: 2px;
+}
+.top-divider { margin-top: 0; }
+
+.cat-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 14px 14px;
+}
+.cat-divider::before,
+.cat-divider::after {
+  content: "";
+  flex: 1;
+  height: 0;
+  border-top: 1px dashed #999;
+}
+.cat-divider span {
+  font-size: 13px;
+  color: #888;
+  white-space: nowrap;
+}
+
+/* ── Link grid ─────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 0 14px 18px;
+}
+.section-block .grid { padding: 0 0 18px; margin: 0 14px 0; }
+
+.uncategorized-block {
+  background: #fafafa;
+  padding: 10px 0 4px;
+  margin-bottom: 8px;
+}
+
+.card {
+  background: #fff;
+  border: 1.5px solid #7589c6;
+  border-radius: 10px;
+  padding: 10px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  aspect-ratio: 1 / 1.05;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.card .card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.card.pressing { border: 2px dashed #333; }
+.card.dragging {
+  opacity: 0.85;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.3);
+  cursor: grabbing;
+  z-index: 40;
+  position: relative;
+}
+.card.drop-target { border: 2px dashed #d32f2f; }
+
+.empty-state {
+  grid-column: 1 / -1;
+  color: #aaa;
+  font-size: 12px;
+  padding: 10px 0;
+  text-align: center;
+}
+
+/* ── Floating add button ─────────────────── */
+.fab {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #FDB462;
+  color: #fff;
+  border: none;
+  font-size: 30px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  cursor: pointer;
+  z-index: 20;
+}
+
+/* ── Popups ───────────────────────────────── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex; align-items: flex-end; justify-content: center;
+  z-index: 30;
+}
+.overlay.hidden { display: none; }
+.sheet {
+  background: #fff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 16px 16px 0 0;
+  padding: 20px;
+}
+.sheet h3 { margin: 0 0 14px; font-family: 'Orbitron', sans-serif; font-size: 16px; }
+.sheet label { display: block; font-size: 12px; color: #555; margin-bottom: 12px; }
+.sheet input, .sheet select {
+  display: block; width: 100%; margin-top: 4px;
+  padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;
+}
+.sheet-actions { display: flex; gap: 8px; margin-top: 8px; }
+.btn-primary, .btn-ghost, .btn-danger {
+  flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer;
+}
+.btn-primary { background: #d32f2f; color: #fff; }
+.btn-ghost { background: #eee; color: #333; }
+.btn-danger { background: #fff; color: #d32f2f; border: 1px solid #d32f2f; }
+
+/* ── Offline icons segment (before footer) ── */
+.offline-icons {
+  background: #dceefb;
+  border-top: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  width: 100%;
+  margin: 24px 0 16px;
+  padding: 18px 14px;
+}
+.icon-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1.5px solid #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.icon-btn.add-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f6fb2;
+}
+.local-folder-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px dashed #a9cdea;
+}
+.folder-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1.5px solid #fff;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.local-folder-result {
+  font-size: 11px;
+  color: #3a6a92;
+  text-align: center;
+  padding: 0 10px;
+}
+.local-folder-hint {
+  font-size: 10px;
+  color: #6f97b7;
+  text-align: center;
+  padding: 0 16px;
+}
+
+/* ── Footer ── */
+footer.mainFooter {
+  text-align: center;
+  padding: 22px 20px 30px;
+  border-top: 1px dashed #ccc;
+  margin: 0 14px;
+}
+footer.mainFooter .footer-made {
+  font-size: 13px;
+  color: #333;
+  margin: 0 0 8px;
+}
+footer.mainFooter .footer-tagline {
+  font-size: 11px;
+  font-style: italic;
+  color: #777;
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+footer.mainFooter .footer-contact p {
+  font-size: 11px;
+  color: #444;
+  margin: 2px 0;
+}
+footer.mainFooter .footer-note {
+  font-size: 10px;
+  color: #999;
+  margin-top: 12px;
+}
+
+/*==================================
+  LINKVAULT V2 — add page
+===================================*/
+#addView .topbar{
+  height:72px;
+  background:#fff;
+  border-bottom:1px solid #e8e8e8;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+}
+#addView .topbar h1{
+  font-family:'Orbitron',sans-serif;
+  font-size:22px;
+  font-weight:700;
+  color:#d32f2f;
+}
+#addView #backBtn{
+  width:48px;
+  height:48px;
+  border:none;
+  border-radius:12px;
+  background:#FDB462;
+  font-size:22px;
+  color:white;
+  cursor:pointer;
+}
+#addView .container{ padding:20px; background:#FFFDF8; }
+#addView .card{
+  background:white;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+#addView label{
+  display:block;
+  margin-bottom:18px;
+  font-size:15px;
+  font-weight:600;
+  color:#444;
+}
+#addView input,
+#addView select,
+#addView textarea{
+  width:100%;
+  margin-top:8px;
+  padding:14px;
+  border:none;
+  outline:none;
+  background:#f5f5f5;
+  border-radius:14px;
+  font-size:16px;
+  transition:.25s;
+  font-family:inherit;
+}
+#addView input:focus,
+#addView select:focus,
+#addView textarea:focus{
+  background:#fff;
+  box-shadow:0 0 0 2px #FDB462;
+}
+#addView textarea{ resize:vertical; min-height:120px; }
+#addView #saveBtn{
+  width:100%;
+  height:58px;
+  margin-top:12px;
+  border:none;
+  border-radius:16px;
+  background:#FDB462;
+  color:white;
+  font-size:19px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.25s;
+  box-shadow:0 10px 20px rgba(253,180,98,.35);
+}
+#addView #saveBtn:hover{ transform:translateY(-2px); }
+#addView #saveBtn:active{ transform:scale(.98); }

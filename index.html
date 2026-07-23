@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LinkVault</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══════════ INDEX VIEW ══════════ -->
+<div id="indexView" class="view active">
+
+  <header class="headerbox">
+    <h1 class="brand">Link Vault</h1>
+    <p class="subtitle">stored links of yours to any categories of your area.</p>
+    <a class="kofi-badge" href="https://ko-fi.com/main5tudiodev" target="_blank" rel="noopener" title="Support main5tudio.dev on Ko-fi">
+      <img src="assets/kofi-badge.png" alt="Support me on Ko-fi">
+    </a>
+  </header>
+
+  <div class="categoryScroller" id="categoryList">
+    <button class="add-cat-btn" id="addCatBtn">+ ADD</button>
+  </div>
+
+  <div class="section-divider top-divider"></div>
+  <div class="section-label">Last 30 days</div>
+  <div class="grid" id="recentGrid"></div>
+  <div class="section-divider"></div>
+
+  <div class="section-label">CATEGORIZED</div>
+  <main id="linkSections"></main>
+
+  <button id="addLinkFab" class="fab" title="Add new link">+</button>
+
+  <div id="addCatPopup" class="overlay hidden">
+    <div class="sheet">
+      <h3>New Category</h3>
+      <label>Name
+        <input type="text" id="newCatName" placeholder="e.g. Design">
+      </label>
+      <label>Color
+        <input type="color" id="newCatColor" value="#888888">
+      </label>
+      <div class="sheet-actions">
+        <button id="newCatCancel" class="btn-ghost">Cancel</button>
+        <button id="newCatSubmit" class="btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="linkPopup" class="overlay hidden">
+    <div class="sheet">
+      <h3>Edit Link</h3>
+      <label>Title
+        <input type="text" id="editTitle">
+      </label>
+      <label>URL
+        <input type="url" id="editUrl">
+      </label>
+      <label>Move to category
+        <select id="editCategory"></select>
+      </label>
+      <label>Add tag
+        <input type="text" id="editTag" placeholder="e.g. reference">
+      </label>
+      <div class="sheet-actions">
+        <button id="deleteLinkBtn" class="btn-danger">Delete</button>
+        <button id="linkPopupClose" class="btn-ghost">Close</button>
+        <button id="linkPopupSubmit" class="btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="offline-icons" id="offlineIconsSection">
+    <div class="icon-row" id="iconRow">
+      <a href="https://drive.google.com" target="_blank" rel="noopener" class="icon-btn">📁 GDrive</a>
+      <a href="https://www.mediafire.com" target="_blank" rel="noopener" class="icon-btn">💾 MediaFire</a>
+      <button class="icon-btn add-icon" id="addIconBtn" title="Add another link">+</button>
+    </div>
+    <div class="local-folder-row">
+      <label for="localFolderInput" class="folder-icon-btn">📂 Local Storage</label>
+      <input type="file" id="localFolderInput" webkitdirectory directory multiple style="display:none">
+      <div class="local-folder-result" id="localFolderResult"></div>
+      <div class="local-folder-hint">membuka file picker bawaan HP untuk pilih folder — browser tidak bisa akses storage HP secara langsung tanpa ini.</div>
+    </div>
+  </section>
+
+  <footer class="mainFooter">
+    <p class="footer-made">made by <strong>main5tudio.dev</strong> production 2026.</p>
+    <p class="footer-tagline">" simpel efisiensi dalam world of updated bagi teman-teman kreatif dan preferable dalam bidangnya "</p>
+    <div class="footer-contact">
+      <p>awan wiharya</p>
+      <p>+6287790225508</p>
+      <p>main5tudio.develop@gmail.com</p>
+    </div>
+    <p class="footer-note">*contact me for any sketches in suitable fuct design of requested.</p>
+  </footer>
+
+</div>
+
+<!-- ══════════ ADD LINK VIEW ══════════ -->
+<div id="addView" class="view">
+  <header class="topbar">
+    <button id="backBtn">←</button>
+    <h1>Add New Link</h1>
+    <div></div>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <label>Link Name
+        <input type="text" id="title" placeholder="Example : GitHub">
+      </label>
+      <label>Website URL
+        <input type="url" id="url" placeholder="https://">
+      </label>
+      <label>Subtitle
+        <input type="text" id="subtitle" placeholder="Repository">
+      </label>
+      <label>Category
+        <select id="category"></select>
+      </label>
+      <label>Notes
+        <textarea id="notes" rows="5" placeholder="Write your notes..."></textarea>
+      </label>
+      <button id="saveBtn">💾 SAVE LINK</button>
+    </div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
