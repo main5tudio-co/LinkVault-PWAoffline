@@ -371,6 +371,8 @@ footer.mainFooter .footer-note {
 }
 #addView .container{ padding:20px; background:#FFFDF8; }
 #addView .card{
+  display:block;
+  aspect-ratio:auto;
   background:white;
   border-radius:20px;
   padding:20px;

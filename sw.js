@@ -3,7 +3,7 @@
  Service Worker
 ==================================*/
 
-const CACHE_NAME = "linkvault-v2";
+const CACHE_NAME = "linkvault-v3";
 
 const FILES = [
   "./",
@@ -66,11 +66,22 @@ self.addEventListener("fetch", event => {
 
   event.respondWith(
 
-    caches.match(event.request)
+    fetch(event.request)
 
-      .then(response => {
+      .then(networkResponse => {
 
-        return response || fetch(event.request);
+        // Update the cache with the fresh version in the background
+        const clone = networkResponse.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+
+        return networkResponse;
+
+      })
+
+      .catch(() => {
+
+        // Offline fallback: use whatever was cached
+        return caches.match(event.request);
 
       })
 
